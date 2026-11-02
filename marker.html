@@ -166,7 +166,26 @@ a { color: inherit; text-decoration: none; }
 .img-thumb img { display: block; max-width: 130px; max-height: 130px; object-fit: cover; }
 .img-thumb-label { text-align: center; font-size: 11px; color: var(--muted); margin-top: 4px; }
 .img-thumb-remove { position: absolute; top: -8px; right: -8px; width: 22px; height: 22px; border-radius: 50%; border: none; background: var(--navy); color: var(--parchment); font-size: 14px; cursor: pointer; display: grid; place-items: center; line-height: 1; }
-#fileInput { display: none; }
+.upload-box { display: block; }
+.upload-box.is-dragover { border-color: var(--gold); background: var(--parchment-warm); }
+.visually-hidden-input { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; pointer-events: none; }
+.upload-actions { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.upload-action-btn { flex: 1 1 180px; text-align: center; padding: 11px 16px; border: 1px solid var(--rule-strong); background: var(--parchment); color: var(--navy); font-size: 13.5px; font-weight: 500; cursor: pointer; border-radius: var(--radius-sm); transition: all 0.15s var(--ease); }
+.upload-action-btn:hover { border-color: var(--gold); background: var(--parchment-warm); }
+.upload-status { font-size: 13px; margin-top: 10px; line-height: 1.5; color: var(--muted); }
+.upload-status.is-error { color: var(--red); background: var(--red-light); border-left: 3px solid var(--red); padding: 10px 14px; }
+.upload-status.is-ok { color: var(--green); }
+
+/* ── BOOKLET MARKING ── */
+.booklet-msg { font-size: 13px; color: var(--red); margin-top: -8px; }
+.booklet-msg:empty { display: none; }
+.case-study-box { margin-top: 12px; border-top: 1px solid var(--rule-strong); padding-top: 10px; }
+.case-study-box summary { cursor: pointer; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); }
+.case-study-text { white-space: pre-line; font-size: 13.5px; line-height: 1.6; color: var(--ink-soft); margin-top: 10px; max-height: 340px; overflow-y: auto; background: var(--paper); border: 1px solid var(--rule); padding: 14px 16px; }
+@media (max-width: 640px) {
+  .toggle-group { flex-wrap: wrap; }
+  .toggle-btn { flex: 1 1 auto; padding: 10px 12px; }
+}
 
 /* ── SUBMIT BUTTON ── */
 .submit-btn {
@@ -407,7 +426,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-
           <span class="section__num">Process</span>
           <div class="section__titleblock">
             <h2>Three steps to better answers.</h2>
-            <p>Select a past paper question or enter your own. Submit your answer. Receive detailed feedback in seconds.</p>
+            <p>Select a past paper or booklet question, or enter your own. Submit your answer. Receive detailed feedback in seconds.</p>
           </div>
         </div>
 
@@ -415,7 +434,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-
           <div class="how-step">
             <div class="how-step__num">1.</div>
             <h3 class="how-step__title">Select &amp; submit</h3>
-            <p class="how-step__body">Enter your name. Pick a question from the 2019&ndash;2025 past paper bank, or paste a custom question. Type your answer or upload a photo of handwritten work.</p>
+            <p class="how-step__body">Enter your name. Pick a question from the 2019&ndash;2025 past paper bank, choose a 6, 9 or 12-mark question from your unit booklet, or paste a custom question. Type your answer or upload a photo of handwritten work.</p>
           </div>
           <div class="how-step">
             <div class="how-step__num">2.</div>
@@ -456,7 +475,42 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-
             <label class="form-label">Question Source</label>
             <div class="toggle-group">
               <button type="button" class="toggle-btn active" data-source="pastpaper" onclick="setSource('pastpaper')">Past Paper Question</button>
+              <button type="button" class="toggle-btn" data-source="booklet" onclick="setSource('booklet')">Booklet Marking</button>
               <button type="button" class="toggle-btn" data-source="custom" onclick="setSource('custom')">Custom Question</button>
+            </div>
+          </div>
+
+          <!-- BOOKLET SELECTOR -->
+          <div id="bookletArea" style="display:none;">
+            <div class="form-row cols-2">
+              <div>
+                <label class="form-label" for="bookletUnitSelect">Booklet</label>
+                <select id="bookletUnitSelect" class="form-select" onchange="updateBookletQuestions()">
+                  <option value="">Select unit</option>
+                  <option value="1">Unit 1 &mdash; Business in the Real World</option>
+                  <option value="2">Unit 2 &mdash; Influences on Business</option>
+                  <option value="3">Unit 3 &mdash; Business Operations</option>
+                  <option value="4">Unit 4 &mdash; Human Resources</option>
+                  <option value="5">Unit 5 &mdash; Marketing</option>
+                  <option value="6">Unit 6 &mdash; Finance</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label" for="bookletQuestionSelect">Question</label>
+                <select id="bookletQuestionSelect" class="form-select" onchange="showBookletPreview()" disabled>
+                  <option value="">Select question</option>
+                </select>
+              </div>
+            </div>
+            <div class="booklet-msg" id="bookletMsg"></div>
+            <div class="question-preview" id="bookletPreview">
+              <span class="qp-label">Question Selected</span>
+              <div class="qp-q" id="bkText"></div>
+              <div class="qp-meta" id="bkMeta"></div>
+              <details class="case-study-box" id="bkCaseWrap">
+                <summary>Show case study</summary>
+                <div class="case-study-text" id="bkCase"></div>
+              </details>
             </div>
           </div>
 
@@ -537,17 +591,23 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-
 
           <div id="imageInputArea" style="display:none;">
             <div id="imagePreviews"></div>
-            <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileInput').click()">
+            <label class="upload-box" id="uploadBox" for="fileInput">
               <div id="uploadEmpty">
                 <div class="upload-icon">&#8679;</div>
                 <h4 id="uploadTitle">Upload your handwritten answer</h4>
-                <p id="uploadHint">Tap to select one or more photos. If your answer spans multiple pages, upload each page separately.</p>
+                <p id="uploadHint">Tap to choose one or more photos (up to 8 pages). Photograph each page flat, in good light, with the whole page in view.</p>
               </div>
+            </label>
+            <div class="upload-actions">
+              <label class="upload-action-btn" for="cameraInput">Take a photo</label>
+              <label class="upload-action-btn" for="fileInput">Choose from gallery / files</label>
             </div>
-            <input type="file" id="fileInput" accept="image/*" multiple onchange="handleImageUpload(event)">
+            <div class="upload-status" id="uploadStatus" role="status" aria-live="polite"></div>
+            <input type="file" id="fileInput" class="visually-hidden-input" accept="image/*,.heic,.heif" multiple onchange="handleImageUpload(event)">
+            <input type="file" id="cameraInput" class="visually-hidden-input" accept="image/*" capture="environment" onchange="handleImageUpload(event)">
           </div>
 
-          <button class="submit-btn" onclick="submitAnswer()">Mark My Answer</button>
+          <button class="submit-btn" id="submitBtn" onclick="submitAnswer()">Mark My Answer</button>
         </div>
 
         <!-- FEEDBACK REPORT -->
@@ -733,7 +793,76 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-
     currentSource = s;
     document.querySelectorAll('.toggle-btn[data-source]').forEach(b => b.classList.toggle('active', b.dataset.source === s));
     document.getElementById('pastPaperArea').style.display = s === 'pastpaper' ? 'block' : 'none';
+    document.getElementById('bookletArea').style.display = s === 'booklet' ? 'block' : 'none';
     document.getElementById('customArea').style.display = s === 'custom' ? 'block' : 'none';
+    if (s === 'booklet') loadBooklets();
+  }
+
+  // ── BOOKLET QUESTIONS (6, 9 and 12-markers from the six unit booklets) ──
+  // Data lives in data/booklet-questions.json: case study, question and booklet model answer for each.
+  let BOOKLETS = null;
+  let bookletsPromise = null;
+  const BOOKLET_SECTION = { 6: 4, 9: 5, 12: 6 };
+  const BOOKLET_TYPE = { 6: 'Analyse', 9: 'Recommend', 12: 'Evaluate' };
+
+  function loadBooklets() {
+    if (BOOKLETS) return Promise.resolve(BOOKLETS);
+    if (bookletsPromise) return bookletsPromise;
+    const msg = document.getElementById('bookletMsg');
+    bookletsPromise = fetch('data/booklet-questions.json', { cache: 'no-cache' })
+      .then(r => { if (!r.ok) throw new Error('status ' + r.status); return r.json(); })
+      .then(d => { BOOKLETS = d; msg.textContent = ''; return d; })
+      .catch(err => {
+        bookletsPromise = null;
+        msg.textContent = 'Could not load the booklet questions. Check your internet connection and refresh the page.';
+        console.error('Booklet load failed:', err);
+        throw err;
+      });
+    return bookletsPromise;
+  }
+
+  function updateBookletQuestions() {
+    const unit = document.getElementById('bookletUnitSelect').value;
+    const qSel = document.getElementById('bookletQuestionSelect');
+    qSel.innerHTML = '<option value="">Select question</option>';
+    qSel.disabled = true;
+    document.getElementById('bookletPreview').classList.remove('show');
+    if (!unit) return;
+    loadBooklets().then(d => {
+      const qs = d[unit].questions;
+      [6, 9, 12].forEach(m => {
+        const group = document.createElement('optgroup');
+        group.label = m + '-mark ' + BOOKLET_TYPE[m] + ' questions (Section ' + BOOKLET_SECTION[m] + ')';
+        qs.forEach((q, i) => {
+          if (q.marks !== m) return;
+          const opt = document.createElement('option');
+          opt.value = i;
+          const biz = q.business.split(' — ')[0];
+          opt.textContent = 'Q' + q.num + ' (' + q.marks + ' marks) — ' + biz + ': ' + q.question.substring(0, 55) + (q.question.length > 55 ? '…' : '');
+          group.appendChild(opt);
+        });
+        qSel.appendChild(group);
+      });
+      qSel.disabled = false;
+    }).catch(() => {});
+  }
+
+  function getBookletQuestion() {
+    const unit = document.getElementById('bookletUnitSelect').value;
+    const idx = document.getElementById('bookletQuestionSelect').value;
+    if (!BOOKLETS || !unit || idx === '') return null;
+    return BOOKLETS[unit].questions[parseInt(idx)];
+  }
+
+  function showBookletPreview() {
+    const q = getBookletQuestion();
+    const preview = document.getElementById('bookletPreview');
+    if (!q) { preview.classList.remove('show'); return; }
+    document.getElementById('bkText').textContent = q.question;
+    document.getElementById('bkMeta').textContent = 'Unit ' + q.unit + ' Booklet · Part B, Section ' + BOOKLET_SECTION[q.marks] + ' · Question ' + q.num + ' · ' + q.marks + ' marks · Case study: ' + q.business;
+    document.getElementById('bkCase').textContent = q.caseStudy;
+    document.getElementById('bkCaseWrap').open = false;
+    preview.classList.add('show');
   }
 
   // ── POPULATE YEARS ──
@@ -792,52 +921,137 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-
     document.getElementById('imageInputArea').style.display = m === 'image' ? 'block' : 'none';
   }
 
-  // ── IMAGE UPLOAD (multi-page support, with compression) ──
+  // ── IMAGE UPLOAD (multi-page, processed one at a time so phones don't run out of memory) ──
   let uploadedImages = [];
+  let pendingUploads = 0;
+  const MAX_PAGES = 8;
+  const MAX_EDGE = 1600;          // long edge in px — sharp enough to read handwriting
+  const MAX_DATAURL = 3500000;    // keep each image well under the 5MB API limit
 
-  function handleImageUpload(e) {
-    const files = Array.from(e.target.files);
-    if (!files.length) return;
-    files.forEach(file => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        compressImage(reader.result, function(compressed) {
-          uploadedImages.push(compressed);
-          renderImagePreviews();
-        });
-      };
-      reader.readAsDataURL(file);
-    });
-    e.target.value = '';
+  function isHeic(file) {
+    return /image\/hei[cf]/i.test(file.type || '') || /\.(heic|heif)$/i.test(file.name || '');
   }
 
-  // Compress image to stay well under the 5MB API limit
-  function compressImage(dataUrl, callback) {
-    const img = new Image();
-    img.onload = function() {
-      const canvas = document.createElement('canvas');
-      // Scale down if width > 1600px (keeps it sharp enough for reading handwriting)
-      let w = img.width;
-      let h = img.height;
-      const MAX = 1600;
-      if (w > MAX || h > MAX) {
-        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
-        else       { w = Math.round(w * MAX / h); h = MAX; }
+  function setUploadStatus(text, kind) {
+    const el = document.getElementById('uploadStatus');
+    el.textContent = text || '';
+    el.className = 'upload-status' + (kind ? ' is-' + kind : '');
+  }
+
+  function updateSubmitState() {
+    const btn = document.getElementById('submitBtn');
+    if (btn.dataset.marking === '1') return;
+    btn.disabled = pendingUploads > 0;
+    btn.textContent = pendingUploads > 0 ? 'Processing photos…' : 'Mark My Answer';
+  }
+
+  function handleImageUpload(e) {
+    const files = Array.from((e.target && e.target.files) || []);
+    if (e.target) e.target.value = '';
+    addImageFiles(files);
+  }
+
+  async function addImageFiles(files) {
+    if (!files.length) return;
+    const errors = [];
+    let added = 0;
+    pendingUploads += files.length;
+    updateSubmitState();
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      setUploadStatus('Processing photo ' + (i + 1) + ' of ' + files.length + '…');
+      try {
+        if (uploadedImages.length >= MAX_PAGES) throw new Error('You can upload a maximum of ' + MAX_PAGES + ' pages.');
+        if (file.type && !/^image\//i.test(file.type) && !isHeic(file)) throw new Error('This is not a photo. Please upload an image (JPG, PNG or HEIC).');
+        const dataUrl = await processImageFile(file);
+        uploadedImages.push(dataUrl);
+        added++;
+        renderImagePreviews();
+      } catch (err) {
+        console.error('Image upload failed:', file.name, err);
+        errors.push((file.name ? file.name + ': ' : '') + err.message);
       }
-      canvas.width = w;
-      canvas.height = h;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, w, h);
-      // Start at 0.85 quality, reduce until under 3.5MB base64 (~4.6MB raw)
-      let quality = 0.85;
-      let result = canvas.toDataURL('image/jpeg', quality);
-      while (result.length > 3500000 && quality > 0.4) {
-        quality -= 0.1;
-        result = canvas.toDataURL('image/jpeg', quality);
-      }
-      callback(result);
-    };
-    img.src = dataUrl;
+      pendingUploads--;
+      updateSubmitState();
+    }
+    if (errors.length) {
+      setUploadStatus((added ? added + ' photo' + (added > 1 ? 's' : '') + ' added. ' : '') + 'Some photos could not be added — ' + errors.join(' '), 'error');
+    } else {
+      setUploadStatus(added + ' photo' + (added > 1 ? 's' : '') + ' added. Check each page is readable below, then press Mark My Answer.', 'ok');
+    }
+  }
+
+  async function processImageFile(file) {
+    let loaded;
+    try {
+      loaded = await loadImage(file);
+    } catch (err) {
+      // Most browsers other than Safari cannot open iPhone HEIC photos — convert them first
+      if (!isHeic(file)) throw new Error('This photo could not be opened. Try taking a screenshot of it and uploading the screenshot instead.');
+      const jpeg = await convertHeic(file);
+      loaded = await loadImage(jpeg);
+    }
+    try {
+      return compressToJpeg(loaded.img);
+    } finally {
+      URL.revokeObjectURL(loaded.url);
+    }
+  }
+
+  function loadImage(blob) {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+      img.onload = () => {
+        if (!img.naturalWidth || !img.naturalHeight) { URL.revokeObjectURL(url); reject(new Error('empty image')); return; }
+        resolve({ img: img, url: url });
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('decode failed')); };
+      img.src = url;
+    });
+  }
+
+  let heicLibPromise = null;
+  function convertHeic(file) {
+    if (!heicLibPromise) {
+      heicLibPromise = new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js';
+        s.onload = () => window.heic2any ? resolve(window.heic2any) : reject(new Error('converter missing'));
+        s.onerror = () => { heicLibPromise = null; reject(new Error('converter failed to load')); };
+        document.head.appendChild(s);
+      });
+    }
+    return heicLibPromise
+      .then(heic2any => heic2any({ blob: file, toType: 'image/jpeg', quality: 0.9 }))
+      .then(out => Array.isArray(out) ? out[0] : out)
+      .catch(err => {
+        console.error('HEIC conversion failed:', err);
+        throw new Error('This iPhone photo (HEIC format) could not be opened in this browser. Upload it from your iPhone directly, or take a screenshot of the photo and upload the screenshot.');
+      });
+  }
+
+  function compressToJpeg(img) {
+    let w = img.naturalWidth, h = img.naturalHeight;
+    if (w > MAX_EDGE || h > MAX_EDGE) {
+      if (w >= h) { h = Math.round(h * MAX_EDGE / w); w = MAX_EDGE; }
+      else        { w = Math.round(w * MAX_EDGE / h); h = MAX_EDGE; }
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#FFFFFF';            // transparent PNGs/screenshots would otherwise turn black
+    ctx.fillRect(0, 0, w, h);
+    ctx.drawImage(img, 0, 0, w, h);
+    let quality = 0.85;
+    let result = canvas.toDataURL('image/jpeg', quality);
+    while (result.length > MAX_DATAURL && quality > 0.4) {
+      quality -= 0.1;
+      result = canvas.toDataURL('image/jpeg', quality);
+    }
+    canvas.width = canvas.height = 0;     // free canvas memory straight away (important on iPhones)
+    if (!/^data:image\/jpeg;base64,/.test(result) || result.length < 1000) throw new Error('This photo could not be processed. Please try again.');
+    return result;
   }
 
   function renderImagePreviews() {
@@ -846,7 +1060,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-
       '<div class="img-thumb">' +
         '<img src="' + src + '" alt="Page ' + (i + 1) + '">' +
         '<div class="img-thumb-label">Page ' + (i + 1) + '</div>' +
-        '<button class="img-thumb-remove" onclick="removeImage(' + i + ')" title="Remove">&times;</button>' +
+        '<button type="button" class="img-thumb-remove" onclick="removeImage(' + i + ')" title="Remove page ' + (i + 1) + '" aria-label="Remove page ' + (i + 1) + '">&times;</button>' +
       '</div>'
     ).join('');
     const title = document.getElementById('uploadTitle');
@@ -854,11 +1068,11 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-
     const box = document.getElementById('uploadBox');
     if (uploadedImages.length > 0) {
       title.textContent = uploadedImages.length + ' page' + (uploadedImages.length > 1 ? 's' : '') + ' uploaded';
-      hint.textContent = 'Tap to add more pages';
+      hint.textContent = uploadedImages.length >= MAX_PAGES ? 'Maximum of ' + MAX_PAGES + ' pages reached.' : 'Tap to add more pages';
       box.classList.add('has-images');
     } else {
       title.textContent = 'Upload your handwritten answer';
-      hint.textContent = 'Tap to select one or more photos. If your answer spans multiple pages, upload each page separately.';
+      hint.textContent = 'Tap to choose one or more photos (up to ' + MAX_PAGES + ' pages). Photograph each page flat, in good light, with the whole page in view.';
       box.classList.remove('has-images');
     }
   }
@@ -866,9 +1080,16 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-
   function removeImage(idx) {
     uploadedImages.splice(idx, 1);
     renderImagePreviews();
+    setUploadStatus(uploadedImages.length ? '' : 'All photos removed.');
   }
 
-
+  // Drag-and-drop for laptops
+  (function () {
+    const box = document.getElementById('uploadBox');
+    ['dragenter', 'dragover'].forEach(ev => box.addEventListener(ev, e => { e.preventDefault(); box.classList.add('is-dragover'); }));
+    ['dragleave', 'drop'].forEach(ev => box.addEventListener(ev, e => { e.preventDefault(); box.classList.remove('is-dragover'); }));
+    box.addEventListener('drop', e => addImageFiles(Array.from(e.dataTransfer.files || [])));
+  })();
 
   const LEVEL_INFO = {
     1: { name: 'Level 1', pct: 20, desc: 'Basic generic discussion. Add more context and develop chains further.' },
@@ -885,6 +1106,21 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-
     const marks = questionData.marks;
     const questionText = questionData.text;
     const caseStudy = questionData.item || '';
+
+    let bookletContext = '';
+    if (questionData.source === 'booklet') {
+      bookletContext = `
+SOURCE: Nishkam Unit ${questionData.unit} revision booklet (${questionData.unitTitle}), Part B, Question ${questionData.num}. The student has the full case study above in front of them, so judge their use of its data and context (AO2) against it.
+
+BOOKLET MODEL ANSWER (written by the teacher \u2014 use as an indicative guide to the standard and the kind of points, data and chains expected. Do NOT require the student to make the same points: credit ANY valid, well-applied argument. Compare structure, depth of chains, data use and evaluation against this):
+<<<MODEL ANSWER START>>>
+${questionData.modelAnswer}
+<<<MODEL ANSWER END>>>
+
+OTHER QUESTIONS IN THIS BOOKLET (use these for "suggestedQuestions" where they target the student's weakness, with source written as "Unit ${questionData.unit} Booklet Q<number> (<marks> marks)"):
+${questionData.otherQuestions}
+`;
+    }
 
     let methodology = '';
     if (marks <= 2) {
@@ -903,7 +1139,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-
 
 QUESTION: ${questionText}
 ${caseStudy ? 'CASE STUDY CONTEXT: ' + caseStudy : ''}
-
+${bookletContext}
 MARKING METHODOLOGY:
 ${methodology}
 
@@ -945,6 +1181,16 @@ RESPOND IN EXACTLY THIS JSON FORMAT (no markdown, no backticks, just raw JSON):
 Be encouraging but precise. Students are targeting Grade 7-9. Be specific in your EBI \u2014 quote from their answer to show exactly where they went wrong. In the model rewrite, demonstrate what Level 4 looks like for this specific question.`;
   }
 
+  function sourceLabel(q) {
+    if (q.source === 'pastpaper') return q.paper + ' \u00b7 June ' + q.year + ' \u00b7 Q' + q.qRef;
+    if (q.source === 'booklet') return 'Unit ' + q.unit + ' Booklet \u00b7 ' + q.marks + '-mark Q' + q.num;
+    return 'Custom Question';
+  }
+  function itemLabel(q) {
+    if (q.source === 'booklet') return q.business;   // short label only; full case study is in the booklet
+    return q.item || '';
+  }
+
   // ── PARSE AI RESPONSE ──
   function parseAIResponse(name, questionData, responseText) {
     try {
@@ -978,12 +1224,11 @@ Be encouraging but precise. Students are targeting Grade 7-9. Be specific in you
           .replace(/\[\/EVAL\]/g, '</span>');
       };
 
-      const isPastPaper = questionData.source === 'pastpaper';
       return {
         name: name,
-        source: isPastPaper ? (questionData.paper + ' \u00b7 June ' + questionData.year + ' \u00b7 Q' + questionData.qRef) : 'Custom Question',
+        source: sourceLabel(questionData),
         questionText: questionData.text,
-        item: questionData.item || '',
+        item: itemLabel(questionData),
         marks: data.maxMark || questionData.marks,
         score: mark,
         level: level,
@@ -1005,9 +1250,9 @@ Be encouraging but precise. Students are targeting Grade 7-9. Be specific in you
       console.error('Parse error:', err, 'Response:', responseText.substring(0, 200));
       return {
         name: name,
-        source: questionData.source === 'pastpaper' ? (questionData.paper + ' \u00b7 June ' + questionData.year + ' \u00b7 Q' + questionData.qRef) : 'Custom Question',
+        source: sourceLabel(questionData),
         questionText: questionData.text,
-        item: questionData.item || '',
+        item: itemLabel(questionData),
         marks: questionData.marks,
         score: '?',
         level: 2,
@@ -1071,6 +1316,7 @@ Be encouraging but precise. Students are targeting Grade 7-9. Be specific in you
 
     if (!name) { alert('Please enter your name.'); return; }
     if (currentMode === 'text' && !answerText) { alert('Please paste your answer before submitting.'); return; }
+    if (currentMode === 'image' && pendingUploads > 0) { alert('Your photos are still being processed. Please wait a moment and try again.'); return; }
     if (currentMode === 'image' && uploadedImages.length === 0) { alert('Please upload at least one photo of your answer before submitting.'); return; }
 
     let questionData;
@@ -1081,6 +1327,17 @@ Be encouraging but precise. Students are targeting Grade 7-9. Be specific in you
       if (!paper || !year || qIdx === '') { alert('Please select a past paper question, or switch to "Custom Question" mode.'); return; }
       const q = PAST_PAPERS[paper][year][parseInt(qIdx)];
       questionData = { source: 'pastpaper', paper: paper, year: year, qRef: q.q, text: q.text, marks: q.marks, item: q.item };
+    } else if (currentSource === 'booklet') {
+      const bq = getBookletQuestion();
+      if (!bq) { alert('Please choose a unit booklet and a question, or switch to "Custom Question" mode.'); return; }
+      const unitData = BOOKLETS[String(bq.unit)];
+      questionData = {
+        source: 'booklet', unit: bq.unit, unitTitle: unitData.title, num: bq.num,
+        business: bq.business, text: bq.question, marks: bq.marks,
+        item: bq.business + '\n' + bq.caseStudy,
+        modelAnswer: bq.modelAnswer,
+        otherQuestions: unitData.questions.filter(o => o.id !== bq.id).map(o => '- Q' + o.num + ' (' + o.marks + ' marks, ' + o.business.split(' \u2014 ')[0] + '): ' + o.question).join('\n')
+      };
     } else {
       const customQ = document.getElementById('customQuestion').value.trim();
       if (!customQ) { alert('Please paste the question for marking.'); return; }
@@ -1092,9 +1349,10 @@ Be encouraging but precise. Students are targeting Grade 7-9. Be specific in you
       };
     }
 
-    const btn = document.querySelector('.submit-btn');
+    const btn = document.getElementById('submitBtn');
+    btn.dataset.marking = '1';
     btn.disabled = true;
-    btn.textContent = 'Analysing your answer\u2026';
+    btn.textContent = currentMode === 'image' ? 'Reading your handwriting and marking\u2026' : 'Analysing your answer\u2026';
 
     const systemPrompt = buildSystemPrompt(questionData);
 
@@ -1106,7 +1364,7 @@ Be encouraging but precise. Students are targeting Grade 7-9. Be specific in you
       }));
       contentBlocks.push({
         type: 'text',
-        text: 'Mark this handwritten answer (' + uploadedImages.length + ' page' + (uploadedImages.length > 1 ? 's' : '') + '). The question is: ' + questionData.text + ' (' + questionData.marks + ' marks)'
+        text: 'Mark this handwritten answer (' + uploadedImages.length + ' page' + (uploadedImages.length > 1 ? 's' : '') + ', in order). The question is: ' + questionData.text + ' (' + questionData.marks + ' marks). Read the handwriting carefully across all pages before marking. If the photos are unreadable, blank, or do not contain an answer to this question, give a mark of 0, explain this in levelSummary, and use the EBI points to tell the student how to retake the photos (flat page, good light, whole page in frame). Still respond in the JSON format.'
       });
       messages.push({ role: 'user', content: contentBlocks });
     } else {
@@ -1130,7 +1388,8 @@ Be encouraging but precise. Students are targeting Grade 7-9. Be specific in you
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error?.message || 'Error (status ' + response.status + ')');
+        if (response.status === 413) throw new Error('Your photos are too large to send. Remove a page or two and try again.');
+        throw new Error((errorData.error && errorData.error.message) || 'Error (status ' + response.status + ')');
       }
 
       const data = await response.json();
@@ -1149,6 +1408,7 @@ Be encouraging but precise. Students are targeting Grade 7-9. Be specific in you
       console.error('Marker error:', err);
     }
 
+    delete btn.dataset.marking;
     btn.disabled = false;
     btn.textContent = 'Mark My Answer';
   }
