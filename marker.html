@@ -1099,7 +1099,24 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-
   };
 
   // ── PROXY URL ──
-  const PROXY_URL = 'https://nishkam-marker.j-kerrisk.workers.dev';
+  const PROXY_URL = 'https://nishkam-marker.alevelnishkam.workers.dev';
+  // Marking servers: try the main one first, fall back to the backup if it can't be reached.
+  const PROXY_URLS = ['https://nishkam-marker.alevelnishkam.workers.dev', 'https://nishkam-marker.j-kerrisk.workers.dev'];
+  async function proxyFetch(options) {
+    let lastErr = null;
+    for (let i = 0; i < PROXY_URLS.length; i++) {
+      const isLast = i === PROXY_URLS.length - 1;
+      try {
+        const r = await fetch(PROXY_URLS[i], options);
+        if (r.status >= 500 && !isLast) { lastErr = new Error('Server error ' + r.status); continue; }
+        return r;
+      } catch (e) {
+        console.warn('Marking server unreachable:', PROXY_URLS[i], e);
+        lastErr = e;
+      }
+    }
+    throw new Error('Could not reach the marking service (' + (lastErr && lastErr.message) + '). Check your internet connection \u2014 school Wi-Fi filters can sometimes block it');
+  }
 
   // ── BUILD SYSTEM PROMPT ──
   function buildSystemPrompt(questionData) {
@@ -1375,7 +1392,7 @@ Be encouraging but precise. Students are targeting Grade 7-9. Be specific in you
     }
 
     try {
-      const response = await fetch(PROXY_URL, {
+      const response = await proxyFetch({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
