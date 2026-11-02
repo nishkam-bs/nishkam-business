@@ -368,7 +368,24 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-
 </div>
 
 <script>
-const PROXY='https://nishkam-marker.j-kerrisk.workers.dev';
+const PROXY = 'https://nishkam-marker.alevelnishkam.workers.dev';
+  // Marking servers: try the main one first, fall back to the backup if it can't be reached.
+  const PROXY_URLS = ['https://nishkam-marker.alevelnishkam.workers.dev', 'https://nishkam-marker.j-kerrisk.workers.dev'];
+  async function proxyFetch(options) {
+    let lastErr = null;
+    for (let i = 0; i < PROXY_URLS.length; i++) {
+      const isLast = i === PROXY_URLS.length - 1;
+      try {
+        const r = await fetch(PROXY_URLS[i], options);
+        if (r.status >= 500 && !isLast) { lastErr = new Error('Server error ' + r.status); continue; }
+        return r;
+      } catch (e) {
+        console.warn('Marking server unreachable:', PROXY_URLS[i], e);
+        lastErr = e;
+      }
+    }
+    throw new Error('Could not reach the marking service (' + (lastErr && lastErr.message) + '). Check your internet connection \u2014 school Wi-Fi filters can sometimes block it');
+  }
 
 
 const FOCUS_OPTIONS = {
@@ -408,7 +425,7 @@ function setProgress(pct,label){
 }
 
 async function aiCall(system,userMsg){
-  const r=await fetch(PROXY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:4096,system:system,messages:[{role:'user',content:userMsg}]})});
+  const r=await proxyFetch({method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:4096,system:system,messages:[{role:'user',content:userMsg}]})});
   if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error?.message||'API error '+r.status)}
   const d=await r.json();return(d.content||[]).map(b=>b.text||'').join('\n');
 }
