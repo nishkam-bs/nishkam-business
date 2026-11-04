@@ -1147,9 +1147,9 @@ ${questionData.otherQuestions}
     } else if (marks === 6) {
       methodology = '6-MARK ANALYSE: Award marks for TWO developed arguments (from 2026 format). Each argument needs: Point with case study evidence (blue/AO2), then 3-4 chains of analysis using connectors (orange/AO3). NO evaluation needed in 6-mark answers. Check for: generic vs contextual language (generic = Level 1), chunks of copied case study without application (Level 1-2), shallow chains that stop after 1-2 links (Level 2 max).';
     } else if (marks === 9) {
-      methodology = '9-MARK RECOMMEND/EVALUATE: Three paragraphs. Para 1: Argument with 4 chains + case study data manipulation. Para 2: Purely evaluative paragraph \u2014 "more balanced view", "further limitation", "it also depends on". NO new argument, just weighing risks. Para 3: Conclusion \u2014 "Overall, I believe" + NEW information (not in paras 1 or 2) + short/long term reasoning + "Therefore". CRITICAL CHECKS: A conclusion that merely repeats paragraph 1 = Level 2 maximum (examiners confirm this every year). Must use the stem (final sentence of the question) to focus the conclusion. No fence-sitting \u2014 must commit to a clear recommendation.';
+      methodology = '9-MARK RECOMMEND/EVALUATE: THREE LEVELS ONLY \u2014 Level 1 (1-3), Level 2 (4-6), Level 3 (7-9). Never award Level 4. Expected structure: Para 1: Argument with 3-4 chains + case study data manipulation. Para 2: Evaluation-led \u2014 weighs up how serious the risks are ("more balanced view", "this is a serious risk because", "further limitation", "it also depends on"). Chains of analysis are allowed in Para 2 but each point must be evaluated, not just explained. Para 3: Conclusion \u2014 "Overall, I believe" + a clear decision + the reason, justified with case study evidence + "Therefore". Short/long term is optional. A NEW point in the conclusion is NOT required for a 9-mark answer (that is a 12-mark requirement) \u2014 do not mark down for its absence, but credit it if present. Pros and cons are not required: one point argued for and against in detail can reach Level 3. CRITICAL CHECKS: Level 3 needs a focused conclusion that is FULLY JUSTIFIED (decision + reason using context). A brief conclusion with little case study context = Level 2. Context is what separates Level 2 from Level 3. Credit use of figures from earlier calculation questions. No fence-sitting \u2014 must commit to a clear recommendation.';
     } else if (marks === 12) {
-      methodology = '12-MARK EVALUATE (TWO OPTIONS): Para 1: Option 1 \u2014 4 chains + data manipulation + "depends on". Short evaluative paragraph for Option 1 (2-3 sentences max). Para 2: Option 2 \u2014 4 chains + data manipulation + "depends on". Short evaluative paragraph for Option 2. Para 3: Conclusion with 5 steps: (1) "To conclude..." (2) "Although... this is outweighed by..." (3) "However, this depends on..." (4) "The most important factor" + NEW information (5) "Therefore...". CRITICAL FOR LEVEL 4: Must integrate across functional areas (e.g. costs to pricing to competitiveness to revenue to profit). Analysis in isolation = Level 3 max. No fence-sitting.';
+      methodology = '12-MARK EVALUATE (TWO OPTIONS): Para 1: Option 1 \u2014 4 chains + data manipulation + "depends on". Short evaluative paragraph for Option 1 (2-3 sentences max). Para 2: Option 2 \u2014 4 chains + data manipulation + "depends on". Short evaluative paragraph for Option 2. Para 3: Conclusion with 5 steps: (1) "To conclude..." (2) "Although... this is outweighed by..." (3) "However, this depends on..." (4) "The most important factor" + NEW information (5) "Therefore...". CRITICAL FOR LEVEL 4 (2026 AQA guidance): (a) the conclusion must bring in a NEW case study point not used earlier \u2014 a conclusion that repeats earlier points = Level 3 maximum even if both paragraphs are strong; (b) the conclusion must explicitly name which option has the biggest impact on the exact target in the final line of the question \u2014 a new point with no link to the target = bottom of Level 4 (10 marks); (c) no context = cannot reach Level 4; context must be strong throughout and in the conclusion; (d) both options analysed, at least one in detail, and the evaluation must compare both. Functional areas should be woven into the argument (naming departments is not required). Evaluation can appear throughout, not only at the end. NOT required: pros and cons of each option, short/long term, definitions, extra pages. No fence-sitting.';
     }
 
     return `You are an expert AQA GCSE Business Studies examiner at Nishkam School West London. You are marking a ${marks}-mark answer.
@@ -1168,6 +1168,7 @@ EXAMINER INSIGHTS (from AQA examiner reports 2019-2025):
 - Definitions alone are not rewarded in extended responses but showing understanding of the concept helps.
 - Students adding extra pages rarely improve their level \u2014 they tend to add more reasons rather than extending their line of argument.
 - Integration across functional areas is essential for Level 4 in 12-mark questions.
+- 9-mark answers have three levels only; a new point in the conclusion is a 12-mark requirement, not a 9-mark one.
 
 NISHKAM SCHOOL VIRTUE REFLECTION:
 After providing feedback, include a brief reflection connecting the student's work to one of Nishkam's three classroom virtues (Peacefulness, Diligence, Determination). For example, if the student showed thorough analysis, commend their Diligence. If they need to push through harder questions, encourage Determination. If their evaluation was balanced and considered, link it to Peacefulness. Include this as a "virtueReflection" field.
@@ -1181,7 +1182,7 @@ RESPOND IN EXACTLY THIS JSON FORMAT (no markdown, no backticks, just raw JSON):
 {
   "mark": <number>,
   "maxMark": ${marks},
-  "level": <1-4>,
+  "level": <1-3 for 6-mark and 9-mark answers; 1-4 for 12-mark answers>,
   "levelSummary": "<one sentence explaining why this level>",
   "www": ["<strength 1>", "<strength 2>", "<strength 3>"],
   "ebi": ["<improvement 1 \u2014 be specific, quote from their answer where relevant>", "<improvement 2>", "<improvement 3>"],
@@ -1195,7 +1196,7 @@ RESPOND IN EXACTLY THIS JSON FORMAT (no markdown, no backticks, just raw JSON):
   ]
 }
 
-Be encouraging but precise. Students are targeting Grade 7-9. Be specific in your EBI \u2014 quote from their answer to show exactly where they went wrong. In the model rewrite, demonstrate what Level 4 looks like for this specific question.`;
+Be encouraging but precise. Students are targeting Grade 7-9. Be specific in your EBI \u2014 quote from their answer to show exactly where they went wrong. In the model rewrite, demonstrate what the top level looks like for this specific question (Level 3 for 6- and 9-mark answers, Level 4 for 12-mark answers).`;
   }
 
   function sourceLabel(q) {
