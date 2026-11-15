@@ -319,7 +319,7 @@
 <script>
 const PROXY = 'https://nishkam-marker.alevelnishkam.workers.dev';
   // Marking servers: try the main one first, fall back to the backup if it can't be reached.
-  const PROXY_URLS = ['https://nishkam-marker.alevelnishkam.workers.dev', 'https://nishkam-marker.j-kerrisk.workers.dev'];
+  const PROXY_URLS = ['https://nishkam-marker.alevelnishkam.workers.dev'];
   async function proxyFetch(options) {
     let lastErr = null;
     for (let i = 0; i < PROXY_URLS.length; i++) {
@@ -613,7 +613,9 @@ Every question must have an "explanation" field explaining WHY the answer is cor
     if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error?.message||'API error')}
     const d=await r.json();
     const raw=(d.content||[]).map(b=>b.text||'').join('\n').replace(/```json\s*/g,'').replace(/```\s*/g,'').trim();
-    quizData=JSON.parse(raw);
+    const qa=raw.indexOf('['),qb=raw.lastIndexOf(']');
+    if(qa===-1||qb<=qa)throw new Error('The quiz did not come through. Please try again');
+    quizData=JSON.parse(raw.slice(qa,qb+1));
     if(!Array.isArray(quizData)||quizData.length<10)throw new Error('Invalid quiz data');
 
     // POST-PROCESSING VALIDATION — fix common AI generation errors

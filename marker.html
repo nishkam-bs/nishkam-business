@@ -1101,7 +1101,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-
   // ── PROXY URL ──
   const PROXY_URL = 'https://nishkam-marker.alevelnishkam.workers.dev';
   // Marking servers: try the main one first, fall back to the backup if it can't be reached.
-  const PROXY_URLS = ['https://nishkam-marker.alevelnishkam.workers.dev', 'https://nishkam-marker.j-kerrisk.workers.dev'];
+  const PROXY_URLS = ['https://nishkam-marker.alevelnishkam.workers.dev'];
   async function proxyFetch(options) {
     let lastErr = null;
     for (let i = 0; i < PROXY_URLS.length; i++) {
