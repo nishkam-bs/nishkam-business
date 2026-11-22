@@ -307,6 +307,15 @@ a:focus-visible, button:focus-visible, .btn:focus-visible { outline: 2px solid v
     </div>
 
     <div class="sidebar__group">
+      <h3 class="sidebar__heading">Homework</h3>
+      <ul class="sidebar__links">
+        <li><a href="index.html#account">Sign in</a></li>
+        <li><a href="schedule.html">My schedule</a></li>
+        <li><a href="practice.html">Practice</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar__group">
       <h3 class="sidebar__heading">Planning</h3>
       <ul class="sidebar__links">
         <li><a href="assessments.html">Assessment Schedule</a></li>
@@ -346,6 +355,12 @@ a:focus-visible, button:focus-visible, .btn:focus-visible { outline: 2px solid v
         </div>
       </div>
     </header>
+
+    <section class="section" id="account-section">
+      <div class="wrap">
+        <div class="acct" id="account" hidden></div>
+      </div>
+    </section>
 
     <section class="section section--tinted" id="ethos">
       <div class="wrap">
@@ -799,5 +814,9 @@ html.dx-read .main .dx-hot{cursor:pointer}
 })();
 </script>
 <!-- READING-TOOLS:END -->
+<script src="refreshers.js"></script>
+<script src="account.js"></script>
+<script>if(window.Acct)Acct.mountHome('#account');</script>
+<script src="visit.js" defer></script>
 </body>
 </html>

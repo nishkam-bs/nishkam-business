@@ -1,0 +1,14 @@
+# Tracker for the GCSE Business site (Years 10 and 11). Deployed by Cloudflare from this folder.
+# It has its own D1 database. Never point this at the 7132 or 7138 database.
+name = "nishkam-tracker-gcse"
+main = "src/index.js"
+compatibility_date = "2025-10-01"
+workers_dev = true
+
+[vars]
+ALLOWED_ORIGINS = "https://nishkam-bs.github.io,https://nishkam-business.alevelnishkam.workers.dev"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "nishkam-tracker-gcse"
+database_id = "REPLACE-WITH-THE-NEW-DATABASE-ID"

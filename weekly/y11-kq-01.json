@@ -1,0 +1,245 @@
+{
+"title": "Week 1: multiple-choice quiz",
+"items": [
+{
+"q": "Which of these businesses operates in the primary sector?",
+"opts": [
+"A car manufacturer",
+"A fishing company",
+"A bank",
+"A furniture shop"
+],
+"ans": 1,
+"why": "The primary sector extracts natural resources, such as fishing, farming and mining. Making cars is secondary and banking and retail are tertiary.",
+"label": "3.1.1"
+},
+{
+"q": "What does limited liability mean for the owners of a business?",
+"opts": [
+"They cannot sell their shares to anyone else",
+"They must share the profit equally",
+"They can only lose the money they have invested",
+"They are personally responsible for all the business's debts"
+],
+"ans": 2,
+"why": "With limited liability, owners can only lose what they have put into the business. Their personal belongings are safe.",
+"label": "3.1.2"
+},
+{
+"q": "A local community group objects to a factory's plan to run deliveries through the night. Which pair of stakeholders is most likely to be in conflict?",
+"opts": [
+"Local residents and the owners",
+"Customers and suppliers",
+"Employees and customers",
+"Suppliers and the government"
+],
+"ans": 0,
+"why": "Night deliveries could increase output and profit for the owners but cause noise for local residents.",
+"label": "3.1.4"
+},
+{
+"q": "Two bakeries in different towns join together to form one business. What type of growth is this?",
+"opts": [
+"Franchising",
+"Organic growth",
+"Vertical integration",
+"Horizontal integration"
+],
+"ans": 3,
+"why": "Joining with a business at the same stage of production in the same industry is horizontal integration.",
+"label": "3.1.7"
+},
+{
+"q": "Which of these is an example of a diseconomy of scale?",
+"opts": [
+"The business buys raw materials in bulk at a lower price",
+"Communication becomes slower as the business grows",
+"The business spreads its advertising costs over more products",
+"The business can borrow at a lower interest rate"
+],
+"ans": 1,
+"why": "Diseconomies of scale push up the cost per unit as a business gets too large, often because communication and coordination become harder. The other three are economies of scale.",
+"label": "3.1.7"
+},
+{
+"q": "Interest rates rise. Which business is most likely to be affected badly?",
+"opts": [
+"A business that sells low-priced basic food",
+"A business with a large bank loan on a variable interest rate",
+"A business that has no debts",
+"A business with a lot of cash in the bank"
+],
+"ans": 1,
+"why": "A rise in interest rates increases the repayments on a variable-rate loan, which raises costs and reduces profit.",
+"label": "3.2.3"
+},
+{
+"q": "The value of the pound falls against the euro. What is the likely effect on a UK business that sells to customers in France?",
+"opts": [
+"Its products become cheaper for French customers",
+"It has to pay higher tariffs",
+"Its products become more expensive for French customers",
+"Its costs of importing fall"
+],
+"ans": 0,
+"why": "When the pound is weaker, French customers need fewer euros to buy UK goods, so UK exports become cheaper and more competitive.",
+"label": "3.2.3"
+},
+{
+"q": "Which law sets the lowest hourly pay an employer can legally give a worker aged 21 or over?",
+"opts": [
+"The National Living Wage",
+"Consumer law",
+"Health and safety law",
+"The Equality Act"
+],
+"ans": 0,
+"why": "The National Living Wage is the legal minimum hourly rate for workers aged 21 and over.",
+"label": "3.2.5"
+},
+{
+"q": "A furniture maker produces 50 oak tables, then resets its machines to make 80 pine chairs. Which production method is this?",
+"opts": [
+"Flow production",
+"Lean production",
+"Job production",
+"Batch production"
+],
+"ans": 3,
+"why": "Making a set quantity of one product before switching to another is batch production.",
+"label": "3.3.1"
+},
+{
+"q": "Which is a benefit of just-in-time stock control?",
+"opts": [
+"The business can always meet a sudden rise in demand",
+"The business gets bulk-buying discounts",
+"Production cannot be stopped by a late delivery",
+"Less money is tied up in stock"
+],
+"ans": 3,
+"why": "JIT means stock arrives only when it is needed, so less cash is tied up and less storage is needed. The other options are benefits of holding buffer stock.",
+"label": "3.3.2"
+},
+{
+"q": "What is the main difference between quality control and quality assurance?",
+"opts": [
+"Quality control is done by every employee; quality assurance is done by inspectors",
+"Quality control checks finished products; quality assurance checks quality at every stage",
+"Quality assurance only happens at the end of production",
+"Quality control is cheaper because it prevents faults"
+],
+"ans": 1,
+"why": "Quality control inspects products at the end. Quality assurance builds quality checks into every stage, aiming to stop faults happening in the first place.",
+"label": "3.3.3"
+},
+{
+"q": "A supermarket trains its staff to know the products well and to help customers find what they need. Which part of the sales process is this?",
+"opts": [
+"Procurement",
+"Post-sales service",
+"Product knowledge and customer engagement",
+"Quality control"
+],
+"ans": 2,
+"why": "Knowing the products and engaging with customers are both part of good customer service during the sales process.",
+"label": "3.3.4"
+},
+{
+"q": "A manager has 12 employees who report directly to her. What is this number called?",
+"opts": [
+"Span of control",
+"Chain of command",
+"Delegation",
+"Hierarchy"
+],
+"ans": 0,
+"why": "The span of control is the number of people a manager is directly responsible for.",
+"label": "3.4.1"
+},
+{
+"q": "Which document describes the qualifications, skills and experience the ideal person for a job should have?",
+"opts": [
+"Application form",
+"Contract of employment",
+"Person specification",
+"Job description"
+],
+"ans": 2,
+"why": "The person specification describes the ideal candidate. The job description describes the job itself.",
+"label": "3.4.2"
+},
+{
+"q": "Which of these is a financial method of motivating employees?",
+"opts": [
+"Job enrichment",
+"Job rotation",
+"Commission",
+"Autonomy"
+],
+"ans": 2,
+"why": "Commission is a payment linked to sales, so it is a financial method. The other three are non-financial.",
+"label": "3.4.3"
+},
+{
+"q": "Which is a benefit of on-the-job training compared with off-the-job training?",
+"opts": [
+"It is usually cheaper",
+"Employees are away from distractions at work",
+"It always leads to a qualification",
+"Employees learn from specialist trainers"
+],
+"ans": 0,
+"why": "On-the-job training happens at work, often from colleagues, so it is usually cheaper. The others describe off-the-job training.",
+"label": "3.4.4"
+},
+{
+"q": "A gym asks 200 of its members to fill in a questionnaire about opening hours. What type of market research is this?",
+"opts": [
+"Primary research",
+"Desk research",
+"Qualitative research only",
+"Secondary research"
+],
+"ans": 0,
+"why": "The gym is collecting new information itself for its own purpose, so it is primary research.",
+"label": "3.5.3"
+},
+{
+"q": "A business splits its market into groups by age and income. What is this called?",
+"opts": [
+"Market research",
+"Market segmentation",
+"Market share",
+"Market mapping"
+],
+"ans": 1,
+"why": "Dividing a market into groups of customers with similar characteristics is market segmentation.",
+"label": "3.5.2"
+},
+{
+"q": "A new streaming service charges £1 a month for the first six months to attract customers, then raises the price. Which pricing method is this?",
+"opts": [
+"Penetration pricing",
+"Cost-plus pricing",
+"Competitive pricing",
+"Price skimming"
+],
+"ans": 0,
+"why": "Starting with a low price to win customers and market share, then raising it, is penetration pricing.",
+"label": "3.5.4"
+},
+{
+"q": "Which source of finance is most suitable for a business that needs money for a few weeks to pay its suppliers?",
+"opts": [
+"An overdraft",
+"Share capital",
+"A ten-year loan",
+"Retained profit from the next five years"
+],
+"ans": 0,
+"why": "An overdraft is a flexible short-term source of finance, suitable for covering a gap of a few weeks.",
+"label": "3.6.1"
+}
+]
+}
