@@ -248,6 +248,46 @@ a:focus-visible, button:focus-visible, .btn:focus-visible { outline: 2px solid v
 .hero__lede    { animation-delay: 0.15s; }
 .hero__actions { animation-delay: 0.25s; }
 .stats-strip   { animation-delay: 0.35s; }
+/* student sign-in and homework panel (same as the A-level sites) */
+#account-section{padding-top:40px;padding-bottom:0}
+.acct{--success:#2d7a4f;margin:0}
+.nk-marks,.nk-prog,.nk-groups{padding:0;margin:0}
+.nk-home{background:var(--paper);border:1px solid var(--rule);border-radius:14px;padding:24px 26px;max-width:980px}
+.nk-home h3{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy);font-weight:400;margin-bottom:6px}
+.nk-home h4{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 10px}
+.nk-home p{font-size:14.5px;color:var(--ink-soft);max-width:640px}
+.nk-home form{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin-top:16px}
+.nk-home label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--navy);flex:1 1 200px;max-width:280px}
+.nk-home input{padding:10px 12px;font:inherit;font-weight:400;font-size:15px;border:1px solid var(--rule);border-radius:8px;background:var(--parchment);color:var(--ink)}
+.nk-home input:focus{outline:2px solid var(--gold-soft);border-color:var(--gold)}
+.nk-home form button{padding:11px 22px;border-radius:10px;border:0;background:var(--navy);color:#fff;font-weight:700;font-size:14px}
+.nk-home form button:disabled{opacity:.6}
+.nk-home .nk-err{color:#b23b31;font-size:14px;margin-top:10px;min-height:1em}
+.nk-home .nk-small{font-size:13px;color:var(--muted)}
+.nk-home .nk-link{background:none;border:0;padding:0;font:inherit;font-size:13px;color:var(--navy);text-decoration:underline}
+.nk-week{border:1px solid var(--rule);border-radius:12px;padding:18px 20px;background:var(--parchment)}
+.nk-week-top{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.nk-due{font-size:13px;color:var(--muted);font-weight:600}
+.nk-count{font-family:'DM Serif Display',serif;font-size:28px;color:var(--navy);line-height:1.2;margin-top:2px}
+.nk-go{display:inline-block;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:11px 20px;border-radius:10px}.nk-go:hover{background:var(--navy-soft)}
+.nk-bar-big{display:block;height:9px;margin:14px 0 14px}
+.nk-groups{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px 18px;margin:0;padding:0}
+.nk-groups li{font-size:14px;color:var(--ink);display:flex;align-items:center;gap:8px}
+.nk-tick{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--rule);font-size:12px;font-weight:700;flex:none}
+.nk-groups li.ok .nk-tick{background:var(--success);border-color:var(--success);color:#fff}
+.nk-head{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin-bottom:18px}
+.nk-head h3{margin:0}
+.nk-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:28px}
+.nk-prog{list-style:none;display:grid;gap:9px}
+.nk-prog li{display:grid;grid-template-columns:150px minmax(60px,1fr) 80px;gap:10px;align-items:center;font-size:14px}
+.nk-prog a{color:var(--navy);font-weight:600;text-decoration:none}.nk-prog a:hover{text-decoration:underline}
+.nk-bar-t{height:7px;border-radius:99px;background:var(--parchment-warm);overflow:hidden}.nk-bar-t i{display:block;height:100%;background:var(--success)}
+.nk-marks{list-style:none;display:grid;gap:6px}
+.nk-marks details{border:1px solid var(--rule);border-radius:8px;padding:8px 12px;font-size:14px}
+.nk-marks summary{cursor:pointer}
+.nk-marks details p{font-size:13.5px;margin-top:6px}
+.nk-marks .nk-q{font-style:italic}
+@media(max-width:760px){.nk-cols{grid-template-columns:1fr}.nk-prog li{grid-template-columns:120px 1fr 70px}.nk-home{padding:20px}}
 </style>
 </head>
 
