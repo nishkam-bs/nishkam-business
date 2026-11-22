@@ -323,7 +323,7 @@ $('#dlCsv').onclick=()=>{
   const csv='﻿'+['Name,Username,One-time password,Site'].concat(fresh.map(f=>[f.name,f.username,f.password,SITE].map(q).join(','))).join('\r\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`GCSE sign-in details ${new Date().toISOString().slice(0,10)}.csv`;a.click();
 };
-const SITE='https://nishkam-bs.github.io/nishkam-new-alevel/';
+const SITE='https://nishkam-bs.github.io/nishkam-business/';
 $('#printSlips').onclick=()=>{
   const w=window.open('','_blank');if(!w){alert('Allow pop-ups for this page and try again.');return;}
   w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Sign-in slips</title><style>
